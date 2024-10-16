@@ -1,18 +1,19 @@
 import os
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, render_template
 
 app = Flask(__name__)
+app.config.from_pyfile("config.py")
 
 @app.route('/')
 def main():
-    return 'Hello, World!', 200
+    return render_template("hello.html")
 
 @app.route('/homepage') 
 def home():
     """View for the Home page of your website."""
     agent = request.user_agent
 
-    return f"This is your homepage ;) - {agent}  = "
+    return render_template("home.html", agent=agent)
 
 @app.route('/hi/<string:name>')
 def greetings(name):
@@ -23,8 +24,7 @@ def greetings(name):
 
 @app.route('/admin')
 def admin():
-    to_url = "/hi/administrator?age=45"
-    to_url = url_for("greetings", name="administrator", age=25)
+    to_url = url_for("greetings", name="administrator", age=25, _external=True)
     return redirect(to_url)
 
 if __name__ == '__main__':
