@@ -1,10 +1,10 @@
 import os
-from flask import Flask, request
+from flask import Flask, request, redirect, url_for
 
 app = Flask(__name__)
 
 @app.route('/')
-def hello():
+def main():
     return 'Hello, World!', 200
 
 @app.route('/homepage') 
@@ -20,6 +20,12 @@ def greetings(name):
     age = request.args.get('age', 0, int)
 
     return f"Welcome, {name} your age is {age}"
+
+@app.route('/admin')
+def admin():
+    to_url = "/hi/administrator?age=45"
+    to_url = url_for("greetings", name="administrator", age=25)
+    return redirect(to_url)
 
 if __name__ == '__main__':
     
