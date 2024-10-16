@@ -5,7 +5,14 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return 'Hello, World!'
+    return 'Hello, World!', 200
+
+@app.route('/homepage') 
+def home():
+    """View for the Home page of your website."""
+
+    return "This is your homepage :) "
+
 
 if __name__ == '__main__':
     
