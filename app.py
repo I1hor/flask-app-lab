@@ -22,5 +22,6 @@ def skills():
 def education():
     return render_template('education.html')
 
+
 if __name__ == '__main__':
     app.run(debug=True)
