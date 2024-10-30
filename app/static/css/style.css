@@ -1,0 +1,48 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing:border-box;
+}
+
+.navbar {
+    margin-bottom: 25px;
+    justify-content: flex-end !important;
+    padding: 10px 20px;
+}
+
+/* footer styles*/
+
+.footer{
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 20px 20px;
+}
+
+.footer p{
+    margin: 0;
+}
+
+.footer .bi{
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    color: #000;
+    font-size: 24px;
+}
+
+/* resume header styles*/
+
+.container header{
+    margin-bottom: 50px;
+}
+
+.container header img{
+    border-radius: 50%;
+}
+
+.container #about, #education, #skills, #experience{
+    width: 50%;
+}

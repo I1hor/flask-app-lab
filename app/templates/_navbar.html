@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('user.get_resume') }}">Resume</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('user.get_about_me') }}">About me</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('user.get_experience') }}">Experience <span class="sr-only">(projects)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user.get_skills') }}">Skills</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user.get_education') }}">Education</a>
+        </li>
+    </ul>
+</nav>
