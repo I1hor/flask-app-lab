@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<nav>
+<nav class="nav-hi">
     <ul>
         <li>
             <a href="{{ url_for('user.greetings', name='John', age=30)}}">Greet John</a>
@@ -15,10 +15,10 @@
     </ul>
 </nav>
 
-<h2>Hello, {{ name }}</h2>
+<h2 class="greeting-h2">Hello, {{ name }}</h2>
 {% if age %}
-    <p>You are {{ age }} years old.</p>
+    <p class="p-greetings">You are {{ age }} years old.</p>
 {% else %}
-    <p>Age is uknown.</p>
+    <p class="p-greetings">Age is uknown.</p>
 {% endif %}
 {% endblock %}

@@ -46,3 +46,45 @@
 .container #about, #education, #skills, #experience{
     width: 50%;
 }
+
+.nav-hi {
+    background-color: #007bff;
+    padding: 1rem;
+}
+
+.nav-hi ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-hi ul li {
+    display: inline;
+}
+
+.nav-hi ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-hi ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Greeting Section Styles */
+.greeting-h2 {
+    color: #007bff;
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 2rem;
+}
+
+.p-greetings {
+    text-align: center;
+    font-size: 1.25rem;
+    color: #555;
+    margin-top: 0.5rem;
+}
