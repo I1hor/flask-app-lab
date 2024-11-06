@@ -2,28 +2,76 @@ from flask import request, redirect, url_for, render_template, abort, make_respo
 from . import user_bp
 from datetime import timedelta, datetime
 
-@user_bp.route('/profile')
-def get_profile():
-    if "username" in session:
-        username = session['username']
-        return render_template("profile.html", username=username)
-    return redirect(url_for('user.login'))
+VALID_USERNAME = "admin"
+VALID_PASSWORD = "password123"
 
-@user_bp.route("/login",  methods=['GET', 'POST'])
+@user_bp.route('/profile', methods=['GET', 'POST'])
+def get_profile():
+    if "username" not in session:
+        flash("Ви повинні увійти, щоб переглянути профіль.", "error")
+        return redirect(url_for('user.login'))
+    
+    cookies = request.cookies
+    username = session['username']
+    color_scheme = request.cookies.get('color_scheme', 'light')
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+        key = request.form.get('key')
+        value = request.form.get('value')
+        max_age = request.form.get('max_age', type=int)
+
+        response = make_response(redirect(url_for('user.get_profile')))
+        if action == 'add' and key and value:
+            response.set_cookie(key, value, max_age=max_age)
+            flash(f"Кука '{key}' успішно додана.", "success")
+            return response
+
+        elif action == 'delete':
+            if key:
+                response.set_cookie(key, '', expires=0)
+                flash(f"Кука '{key}' успішно видалена.", "info")
+            else:
+                for cookie_key in cookies.keys():
+                    response.set_cookie(cookie_key, '', expires=0)
+                session.pop('username', None)
+                flash("Всі кукі успішно видалені. Будь ласка, увійдіть знову.", "info")
+                return redirect(url_for('user.login'))
+
+    return render_template("profile.html", username=username, cookies=cookies, color_scheme=color_scheme)
+
+@user_bp.route('/set_color_scheme/<string:scheme>', methods=['POST'])
+def set_color_scheme(scheme):
+    if scheme not in ['light', 'dark']:
+        flash("Недійсна кольорова схема", "error")
+        return redirect(url_for('user.get_profile'))
+
+    response = make_response(redirect(url_for('user.get_profile')))
+    response.set_cookie('color_scheme', scheme, max_age=30*24*60*60)
+    flash(f"Кольорова схема '{scheme}' застосована.", "success")
+    return response
+
+@user_bp.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
-        username = request.form['login']
-        session["username"] = username
-        return redirect(url_for("user.get_profile"))
-    flash("Invalid: session", "fail")
+        username = request.form.get('login')
+        password = request.form.get('password')
+        
+        if username == VALID_USERNAME and password == VALID_PASSWORD:
+            session["username"] = username
+            flash("Вхід успішний!", "success")
+            return redirect(url_for("user.get_profile"))
+        else:
+            flash("Неправильне ім'я користувача або пароль", "fail")
+    
     return render_template("login.html")
 
 @user_bp.route('/logout')
 def logout():
-    # Видалення користувача із сесії
     session.pop('username', None)
-    session.pop('age', None)
-    return redirect(url_for('user.get_profile'))
+    session.pop('password', None)
+    flash("Ви успішно вийшли з системи.", "info")
+    return redirect(url_for('user.login'))
 
 
 @user_bp.route('/')
@@ -46,7 +94,7 @@ def get_skills():
 def get_education():
     return render_template('education.html')
 
-@user_bp.route("/hi/<string:name>")   #/hi/ivan?age=45
+@user_bp.route("/hi/<string:name>")
 def greetings(name):
     name = name.upper()
     age = request.args.get("age", None, int)   
@@ -56,7 +104,7 @@ def greetings(name):
 
 @user_bp.route("/admin")
 def admin():
-    to_url = url_for("user.greetings", name="administrator", age=45, _external=True)     # "http://localhost:8080/hi/administrator?age=45"
+    to_url = url_for("user.greetings", name="administrator", age=45, _external=True)
     print(to_url)
     return redirect(to_url)
 
@@ -75,7 +123,7 @@ def get_cookie():
 @user_bp.route('/delete_cookie')
 def delete_cookie():
     response = make_response('Кука видалена')
-    response.set_cookie('username', '', expires=0) # response.set_cookie('username', '', max_age=0)
+    response.set_cookie('username', '', expires=0)
     return response
 
 if __name__ == '__main__':

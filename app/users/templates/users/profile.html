@@ -2,10 +2,78 @@
 
 {% block title %}Profile Page{% endblock %}
 
+{% if color_scheme == 'dark' %}
+<style>
+    body {
+        background-color: dark;
+    }
+    table, th, td {
+        border: 1px solid #fff;
+    }
+</style>
+{% else %}
+<style>
+    body {
+        background-color: #fff;
+    }
+    table, th, td {
+        border: 1px solid #000000;
+    }
+</style>
+{% endif %}
 {% block content %}
+<div class="c-pp">
+    <h1>Ласкаво просимо, {{ username }}!</h1>
+    <a href="{{ url_for('user.logout') }}">Вийти</a>
+    
+    <h2>Керування кукі</h2>
+    
+    <form action="{{ url_for('user.set_color_scheme', scheme='light') }}" method="post" style="display:inline;">
+        <button type="submit">Світла тема</button>
+    </form>
+    <form action="{{ url_for('user.set_color_scheme', scheme='dark') }}" method="post" style="display:inline;">
+        <button type="submit">Темна тема</button>
+    </form>
+    
+    <form method="post">
+        <h3>Додати куку</h3>
+        <label>Ключ: <input type="text" name="key" required></label><br>
+        <label>Значення: <input type="text" name="value" required></label><br>
+        <label>Термін дії (секунди): <input type="number" name="max_age" required></label><br>
+        <input type="hidden" name="action" value="add">
+        <button type="submit">Додати куку</button>
+    </form>
+    
+    <form method="post">
+        <h3>Видалити куку</h3>
+        <label>Ключ (опціонально): <input type="text" name="key"></label><br>
+        <input type="hidden" name="action" value="delete">
+        <button type="submit">Видалити куку</button>
+        <p><small>Залиште ключ порожнім, щоб видалити всі кукі.</small></p>
+    </form>
+    
+    <h2>Поточні кукі</h2>
+    <table border="1">
+        <tr>
+            <th>Ключ</th>
+            <th>Значення</th>
+        </tr>
+        {% for key, value in cookies.items() %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 
-<h1>Hi, {{  username  }}</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <p class="{{ category }}">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
 
-<a href="{{url_for('user.logout')}}">logout</a>
+</div>
 
 {% endblock %}

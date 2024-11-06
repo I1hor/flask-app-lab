@@ -88,3 +88,53 @@
     color: #555;
     margin-top: 0.5rem;
 }
+
+.c-n-pp{
+    width: 100%;
+}
+
+.c-n-pp h2{
+    width: 100%;
+    text-align: center;
+}
+
+.c-n-pp input{
+    margin: 10px;
+    width: 100%;
+}
+
+.c-n-pp form{
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    width: 30%;
+    margin: 0 auto;
+}
+
+.c-n-pp form>input:last-child{
+    width: 100%;
+    background: #156943;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.c-pp{
+    margin: 20px;
+}
+
+.c-pp>a, button{
+    background: #156943;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.c-pp>h2{
+    margin: 15px 0;
+}
+
+.c-pp>form input{
+    margin: 5px;
+}
