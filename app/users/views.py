@@ -126,5 +126,6 @@ def delete_cookie():
     response.set_cookie('username', '', expires=0)
     return response
 
+
 if __name__ == '__main__':
     user_bp.run(debug=True)

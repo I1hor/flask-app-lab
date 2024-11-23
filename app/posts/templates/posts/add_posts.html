@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Post{% endblock %}
+
+{% block content %}
+    <h2 style="max-width: 700px; margin: 10px auto;">Add New Post</h2>
+    <form style="max-width: 500px; margin: 0 auto;" method="POST" action="" novalidate>
+    {{ form.hidden_tag() }}
+    {% from 'form_macros.html' import render_field %}
+
+    {{ render_field(form.title) }}
+    {{ render_field(form.content) }}
+
+
+
+    <div class="form-group form-check">
+        {{ form.is_active(class="form-check-input")}}
+        {{ form.is_active.label(class="form-check-label") }}
+    </div>
+
+    {{ render_field(form.publish_date) }}
+    {{ render_field(form.category) }}
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+    </form>
+{% endblock %}
