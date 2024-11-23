@@ -1,13 +1,20 @@
 from flask import Flask
 
 
-app = Flask(__name__)
-app.config.from_pyfile("../config.py")
+def create_app(config_name="config"):
 
-from . import views
 
-from .users import user_bp
-from .posts import post_bp
+    app = Flask(__name__)
+    app.config.from_object(config_name)
 
-app.register_blueprint(user_bp, url_prefix="/users")
-app.register_blueprint(post_bp, url_prefix="/post")
+    with app.app_context():
+
+        from . import views
+
+        from .users import user_bp
+        from .posts import post_bp
+
+        app.register_blueprint(user_bp, url_prefix="/users")
+        app.register_blueprint(post_bp, url_prefix="/post")
+        
+    return app

@@ -1,8 +1,6 @@
 .idea/
 .vscode/
-.venv/
-.venv*/
-venv*/
+
 dist/
 .coverage*
 htmlcov/
